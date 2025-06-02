@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { signup, signin, logout, verifyToken } = require('../controllers/authController');
-const { getProfile } = require('../controllers/userController');
-const { getShopByName, getUserShops } = require('../controllers/shopController');
+const { signup, signin, logout, verifyToken } = require('../controllers/AuthController');
+const { getShopBySubdomain, getUserShops } = require('../controllers/shopController');
 const { signupValidation, signinValidation } = require('../middleware/validation');
 const authMiddleware = require('../middleware/authMiddleware');
 
@@ -14,14 +13,8 @@ router.get('/verify', authMiddleware, verifyToken);
 
 
 
-// User Profile
-router.get('/profile', authMiddleware, getProfile);
-
-
-
-
 // Shops
 router.get('/my', authMiddleware, getUserShops);
-router.get('/:shopName', getShopByName);
+router.get('/shop/:shopName', getShopBySubdomain);
 
 module.exports = router;

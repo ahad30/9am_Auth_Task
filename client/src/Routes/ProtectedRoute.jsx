@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { Loader2 } from 'lucide-react'
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading, isSubdomain } = useAuth()
+  const { user, loading } = useAuth()
   const location = useLocation()
   
   if (loading) {
@@ -18,12 +18,7 @@ const ProtectedRoute = ({ children }) => {
   }
   
   if (!user) {
-    // If on subdomain and not authenticated, redirect to main domain
-    if (isSubdomain) {
-      window.location.href = 'http://localhost:5173/login'
-      return null
-    }
-    
+
     return <Navigate to="/login" state={{ from: location }} replace />
   }
   

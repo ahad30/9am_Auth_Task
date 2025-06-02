@@ -2,19 +2,20 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const getShopByName = async (req, res) => {
+const getShopBySubdomain = async (req, res) => {
   try {
-    const { shopName } = req.params;
-    
+    const host = req.headers.host; 
+    const subdomain = host.split('.')[0].toLowerCase();
+
     const shop = await prisma.shop.findUnique({
-      where: { name: shopName.toLowerCase() },
+      where: { name: subdomain },
       include: { user: { select: { username: true } } }
     });
 
     if (!shop) {
       return res.status(404).json({
         success: false,
-        message: 'Shop not found'
+        message: 'Shop not found for this subdomain'
       });
     }
 
@@ -28,7 +29,7 @@ const getShopByName = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Get shop error:', error);
+    console.error('Get shop by subdomain error:', error);
     res.status(500).json({
       success: false,
       message: 'Internal server error'
@@ -57,6 +58,6 @@ const getUserShops = async (req, res) => {
 };
 
 module.exports = {
-  getShopByName,
+  getShopBySubdomain,
   getUserShops
 };

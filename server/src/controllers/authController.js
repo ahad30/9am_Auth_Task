@@ -20,7 +20,7 @@ const setTokenCookie = (res, token, rememberMe = false) => {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge,
-    // domain: '.localhost'
+    domain: '.localhost'
   });
 };
 
@@ -161,6 +161,7 @@ const signin = async (req, res) => {
         id: user.id,
         username: user.username,
         shops: user.shops.map(shop => ({ id: shop.id, name: shop.name })),
+        token
       }
     });
 

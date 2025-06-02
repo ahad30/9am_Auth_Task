@@ -17,42 +17,25 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [isSubdomain, setIsSubdomain] = useState(false)
-  const [currentShop, setCurrentShop] = useState(null)
-
   
-  useEffect(() => {
-    
-    const hostname = window.location.hostname
-    console.log(hostname)
-    const isSubdomainSite = hostname !== 'localhost' && hostname.includes('localhost')
-    setIsSubdomain(isSubdomainSite)
-    
-    if (isSubdomainSite) {
-      const shopName = hostname.split('.')[0]
-      setCurrentShop(shopName)
-    }
-    
-    checkAuthStatus()
-  }, [])
+  
+useEffect(() => {
+  checkAuthStatus();
+}, []);
 
-  const checkAuthStatus = async () => {
-    try {
-      const response = await axios.get('/verify')
-      if (response.data.success) {
-        console.log(response)
-        setUser(response.data.user)
-      }
-      if (isSubdomain) {
-        window.location.href = 'http://localhost:5173/login'
-        return
-      }
-    } catch (error) {
-      console.log('Not authenticated')
-    } finally {
-      setLoading(false)
+const checkAuthStatus = async () => {
+  try {
+    setLoading(true);
+    const response = await axios.get('/verify');
+    if (response.data.success) {
+      setUser(response.data.user);
     }
+  } catch (error) {
+    console.log('Not authenticated');
+  } finally {
+    setLoading(false);
   }
+};
 
   const signup = async (userData) => {
     try {
@@ -110,9 +93,6 @@ export const AuthProvider = ({ children }) => {
     signup,
     signin,
     logout,
-    checkAuthStatus,
-    isSubdomain,
-    currentShop
   }
 
   return (
