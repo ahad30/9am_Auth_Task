@@ -1,0 +1,123 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import { toast } from 'sonner';
+
+const AuthContext = createContext()
+axios.defaults.baseURL = `${import.meta.env.VITE_BACKEND_URL}`
+axios.defaults.withCredentials = true
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
+}
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [isSubdomain, setIsSubdomain] = useState(false)
+  const [currentShop, setCurrentShop] = useState(null)
+
+  
+  useEffect(() => {
+    
+    const hostname = window.location.hostname
+    console.log(hostname)
+    const isSubdomainSite = hostname !== 'localhost' && hostname.includes('localhost')
+    setIsSubdomain(isSubdomainSite)
+    
+    if (isSubdomainSite) {
+      const shopName = hostname.split('.')[0]
+      setCurrentShop(shopName)
+    }
+    
+    checkAuthStatus()
+  }, [])
+
+  const checkAuthStatus = async () => {
+    try {
+      const response = await axios.get('/verify')
+      if (response.data.success) {
+        console.log(response)
+        setUser(response.data.user)
+      }
+      if (isSubdomain) {
+        window.location.href = 'http://localhost:5173/login'
+        return
+      }
+    } catch (error) {
+      console.log('Not authenticated')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const signup = async (userData) => {
+    try {
+      setLoading(true)
+      const response = await axios.post('/signup', userData)
+      
+      if (response.data.success) {
+        setUser(response.data.user)
+        toast.success('Account created successfully!')
+        return { success: true }
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || 'Signup failed'
+      toast.error(message)
+      return { success: false, message }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const signin = async (credentials) => {
+    try {
+      setLoading(true)
+      const response = await axios.post('/signin', credentials)
+      
+      if (response.data.success) {
+        setUser(response.data.user)
+        toast.success('Login successful!')
+        return { success: true }
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || 'Login failed'
+      toast.error(message)
+      return { success: false, message }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const logout = async () => {
+    try {
+      await axios.post('/logout')
+      setUser(null)
+      toast.success('Logged out successfully!')
+    } catch (error) {
+      console.error('Logout error:', error)
+      // Even if logout fails on server, clear user locally
+      setUser(null)
+    }
+  }
+
+  const value = {
+    user,
+    loading,
+    signup,
+    signin,
+    logout,
+    checkAuthStatus,
+    isSubdomain,
+    currentShop
+  }
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
