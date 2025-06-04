@@ -60,7 +60,7 @@ JWT_REMEMBER_EXPIRES_IN="7d"(optinal)
 PORT=5000
 ```
 ```
-Note: after deploying backend, dont forget to add your backend url in auth controller cookie domain into both set cookie and logout 
+Note: after deploying backend, dont forget to add your backend url in auth controller cookie domain into both set cookie and logout
 ```
 ```
 Example:
@@ -102,7 +102,9 @@ VITE_FRONTEND_URL=localhost:5173
 VITE_FRONTEND_URL=yourdeployfrontendurl
 VITE_BACKEND_URL=yourdeploybackendurl/api/v1
 ```
-
+```
+Note: after deploying frontend, dont forget to add your add the frontend url in backend main index.js cors option.
+```
 ### 4. Configure hosts file (Optional)
 
 Add these entries to your `/etc/hosts` (Mac/Linux) or `C:\Windows\System32\drivers\etc\hosts` (Windows):
