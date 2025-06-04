@@ -46,6 +46,10 @@ cd server
 npm install
 ```
 
+```Note
+If prisma schema didn't auto generate on "npm i", use this command "npx prisma generate"
+```
+
 Create a `.env` file in the backend directory:
 
 ```env
