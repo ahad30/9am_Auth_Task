@@ -59,7 +59,32 @@ JWT_EXPIRES_IN="30m"(optinal)
 JWT_REMEMBER_EXPIRES_IN="7d"(optinal)
 PORT=5000
 ```
+```
+Note: after deploying backend, dont forget to add your backend url in auth controller cookie domain into both set cookie and logout 
+```
+```
+Example:
+res.cookie('token', token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'None',
+  path: '/',
+  maxAge: maxAge,
+  domain: process.env.NODE_ENV === 'production'
+        ? '.yourbackend url domain'
+        : '.localhost',
+});
 
+ res.clearCookie('token', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      domain: process.env.NODE_ENV === 'production'
+        ? '.yourbackend url domain'
+        : '.localhost',
+      path: '/'
+    });
+```
 ### 3. Set up the frontend
 
 ```bash
