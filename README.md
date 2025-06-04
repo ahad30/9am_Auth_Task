@@ -91,7 +91,7 @@ Add these entries to your `/etc/hosts` (Mac/Linux) or `C:\Windows\System32\drive
 
 ```bash
 cd backend
-npm run dev
+nodemon
 ```
 
 ### Start the frontend
