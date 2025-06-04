@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { User, Store, LogOut, ChevronDown, Plus, Eye } from 'lucide-react'
+import { User, Store, LogOut, ChevronDown, Eye } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,8 +23,6 @@ const handleShopClick = (shopName) => {
   }
 
   const name = shopName.toLowerCase().replace(/\s+/g, '-');
-
-  // Create the Verify URL
   const shopUrl = new URL(`http://${name}.${import.meta.env.VITE_FRONTEND_URL}?shop=${name}&token=${token}&userId=${userData.id}&username=${userData.username}&name=${name}`);
 
 
