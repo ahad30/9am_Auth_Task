@@ -28,8 +28,8 @@ const handleShopClick = (shopName) => {
   const shopUrl = new URL(`http://${name}.${import.meta.env.VITE_FRONTEND_URL}?shop=${name}&token=${token}&userId=${userData.id}&username=${userData.username}&name=${name}`);
 
 
-  window.open(shopUrl.toString(), '_blank');
-  // window.location.href = shopUrl.toString();
+  // window.open(shopUrl.toString(), '_blank');
+  window.location.href = shopUrl.toString();
 };
    
 
