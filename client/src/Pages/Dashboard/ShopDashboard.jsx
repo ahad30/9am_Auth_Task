@@ -5,9 +5,8 @@ import Cookies from 'js-cookie';
 
 
 const ShopDashboard = () => {
-  const location = useLocation();
   const shopUserData = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-  console.log(shopUserData)
+  // console.log(shopUserData)
   const shopName = shopUserData ? shopUserData?.shop?.name : "";
   const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
@@ -41,7 +40,9 @@ const ShopDashboard = () => {
           {user && !shopName && (
             <div className='mt-8 bg-blue-50 border border-blue-100 rounded-lg p-4'>
              <p>You are logged in as {user.username}</p>
-              <h2 className='text-lg font-medium text-blue-800 mb-2'>No shop selected Please select a shop from your account to main dashboard</h2>
+              <h2 className='text-lg font-medium text-blue-800 mb-2'>
+                Go to your shop dashboard to manage your shops.
+              </h2>
              <Link to="/dashboard" className='inline-flex items-center justify-center gap-2 text-blue-600 hover:text-blue-800'>
               
                <button className='text-white bg-green-500 hover:bg-green-600 py-2 px-4 rounded-lg'>Go to Dashboard</button>
