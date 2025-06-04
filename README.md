@@ -42,7 +42,7 @@ cd shop-dashboard
 ### 2. Set up the backend
 
 ```bash
-cd backend
+cd server
 npm install
 ```
 
@@ -51,15 +51,15 @@ Create a `.env` file in the backend directory:
 ```env
 DATABASE_URL="mongodb+srv://username:password@cluster0.qxclpw1.mongodb.net/databasename?retryWrites=true&w=majority"
 JWT_SECRET=your_Token_secret_key
-JWT_EXPIRES_IN="30m"
-JWT_REMEMBER_EXPIRES_IN="7d"
+JWT_EXPIRES_IN="30m"(optinal)
+JWT_REMEMBER_EXPIRES_IN="7d"(optinal)
 PORT=5000
 ```
 
 ### 3. Set up the frontend
 
 ```bash
-cd ../frontend
+cd client
 npm install
 ```
 
@@ -90,14 +90,14 @@ Add these entries to your `/etc/hosts` (Mac/Linux) or `C:\Windows\System32\drive
 ### Start the backend
 
 ```bash
-cd backend
+cd server
 nodemon
 ```
 
 ### Start the frontend
 
 ```bash
-cd ../frontend
+cd client
 npm run dev
 ```
 
@@ -109,14 +109,14 @@ The application will be available at:
 
 ```
 shop-dashboard/
-├── backend/               # Node.js backend
+├── server/               # Node.js backend
 │   ├── prisma/           # Prisma schema
 │   ├── src/              # Backend source
 │   │   ├── controllers/  # Route controllers
 │   │   ├── middleware/   # secure data
 │   │   ├── routes/       # API routes
 │   │   └── app.js        # Express app
-├── frontend/             # React frontend
+├── client/             # React frontend
 │   ├── src/
 │   │   ├── components/   # React components
 │   │   ├── pages/        # Page components
@@ -136,7 +136,7 @@ You can create your own account or use these test credentials:
 **Subdomains not working?**
 - Verify your hosts file entries
 - Check that cookies are being set with `.localhost` domain
-- Ensure Vite is running with `host: true` in config
+- Ensure Vite is running with `host: true` in config(optional)
 
 **Authentication issues?**
 - Verify JWT secret matches between frontend and backend
