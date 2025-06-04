@@ -119,7 +119,6 @@ export const AuthProvider = ({ children }) => {
       toast.success('Logged out successfully!');
     } catch (error) {
       console.error('Logout error:', error);
-      // Even if logout fails on server, clear user locally
       clearToken();
       setUser(null);
     }

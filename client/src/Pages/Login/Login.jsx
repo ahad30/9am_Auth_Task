@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Store } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
+import { toast } from 'sonner'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,8 +23,26 @@ const Login = () => {
     }))
   }
 
+    const validateForm = () => {
+    const { username, password } = formData
+
+    if (!username.trim()) {
+      toast.error('Username is required')
+      return false
+    }
+
+    if (!password) {
+      toast.error('Password is required')
+      return false
+    }
+
+
+    return true
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!validateForm()) return
     setLoading(true)
     
     const result = await signin(formData)
@@ -36,12 +55,10 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen w-full lg:max-w-xl mx-auto flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 rounded-lg">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-primary-600 rounded-lg flex items-center justify-center">
-            <Store className="h-6 w-6 text-white" />
-          </div>
+         
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
@@ -49,7 +66,7 @@ const Login = () => {
             Or{' '}
             <Link
               to="/register"
-              className="font-medium text-primary-600 hover:text-primary-500"
+              className="font-medium underline text-blue-600"
             >
               create a new account
             </Link>
@@ -60,14 +77,13 @@ const Login = () => {
           <div className="space-y-4">
             {/* Username */}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="username" className="block text-start text-sm font-medium text-gray-700">
                 Username
               </label>
               <input
                 id="username"
                 name="username"
-                type="text"
-                required
+                type="text"               
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 form-input"
                 placeholder="Enter your username"
                 value={formData.username}
@@ -78,7 +94,7 @@ const Login = () => {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="text-start block text-sm font-medium text-gray-700">
                 Password
               </label>
               <div className="mt-1 relative">
@@ -86,7 +102,7 @@ const Login = () => {
                   id="password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
-                  required
+                  
                   className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 form-input"
                   placeholder="Enter your password"
                   value={formData.password}
@@ -118,7 +134,7 @@ const Login = () => {
                 onChange={handleInputChange}
               />
               <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
-                Remember me for 7 days
+                Remember me 
               </label>
             </div>
           </div>

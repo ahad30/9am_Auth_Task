@@ -32,7 +32,7 @@ const Register = () => {
   }
 
   const addShopField = () => {
-    if (formData.shopNames.length < 10) {
+    if (formData?.shopNames) {
       setFormData(prev => ({
         ...prev,
         shopNames: [...prev.shopNames, '']
@@ -123,12 +123,10 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen w-full lg:max-w-xl mx-auto flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 rounded-lg">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-primary-600 rounded-lg flex items-center justify-center">
-            <Store className="h-6 w-6 text-white" />
-          </div>
+         
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Create your account
           </h2>
@@ -136,7 +134,7 @@ const Register = () => {
             Or{' '}
             <Link
               to="/login"
-              className="font-medium text-primary-600 hover:text-primary-500 underline"
+              className="font-medium text-blue-600 underline"
             >
               sign in to your existing account
             </Link>
@@ -154,7 +152,7 @@ const Register = () => {
                 id="username"
                 name="username"
                 type="text"
-                required
+                
                 className="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 form-input"
                 placeholder="Enter your username"
                 value={formData.username}
@@ -172,7 +170,7 @@ const Register = () => {
                   id="password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
-                  required
+                  
                   className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 form-input"
                   placeholder="Enter your password"
                   value={formData.password}
@@ -223,15 +221,17 @@ const Register = () => {
                 ))}
               </div>
               
-              {formData.shopNames.length < 10 && (
-                <button
+              {formData?.shopNames && (
+               <div className='flex justify-end'>
+                 <button
                   type="button"
                   onClick={addShopField}
-                  className="mt-2 flex items-center space-x-1 text-sm text-primary-600 hover:text-primary-500"
+                  className="mt-2 flex items-center px-2 py-1 rounded-md space-x-1 text-sm bg-green-500 text-white uppercase"
                 >
                   <Plus className="h-4 w-4" />
                   <span>Add more shop</span>
                 </button>
+               </div>
               )}
             </div>
           </div>
