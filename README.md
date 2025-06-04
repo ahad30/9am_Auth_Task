@@ -69,9 +69,9 @@ Create a `.env` file in the frontend directory:
 <!-- For local -->
 VITE_BACKEND_URL=http://localhost:5000/api/v1
 VITE_FRONTEND_URL=localhost:5173
-<!-- # Deployment -->
-# VITE_FRONTEND_URL=yourdeployfrontendurl
-# VITE_BACKEND_URL=yourdeploybackendurl/api/v1
+<!-- Deployment -->
+VITE_FRONTEND_URL=yourdeployfrontendurl
+VITE_BACKEND_URL=yourdeploybackendurl/api/v1
 ```
 
 ### 4. Configure hosts file (Optional)
