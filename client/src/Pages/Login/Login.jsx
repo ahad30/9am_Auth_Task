@@ -5,8 +5,8 @@ import { useAuth } from '../../context/AuthContext'
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: 'Ahad',
+    password: 'ahusha1234@',
     rememberMe: false
   })
   const [showPassword, setShowPassword] = useState(false)
@@ -72,6 +72,7 @@ const Login = () => {
                 placeholder="Enter your username"
                 value={formData.username}
                 onChange={handleInputChange}
+
               />
             </div>
 
@@ -90,6 +91,7 @@ const Login = () => {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleInputChange}
+
                 />
                 <button
                   type="button"
@@ -125,7 +127,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black  disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium bg-blue-500 text-white  disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>

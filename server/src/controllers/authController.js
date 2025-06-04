@@ -13,15 +13,19 @@ const generateToken = (userId, rememberMe = false) => {
 
 // Set cookie with token
 const setTokenCookie = (res, token, rememberMe = false) => {
-  const maxAge = rememberMe ? 7 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000; // 7 days or 30 minutes
+  const maxAge = rememberMe ? 7 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000;
   
-  res.cookie('token', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge,
-    domain: '.localhost'
-  });
+res.cookie('token', token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'None',
+  path: '/',
+  maxAge: maxAge,
+   domain: process.env.NODE_ENV === 'production'
+        ? '.shop-management-server-five.vercel.app'
+        : '.localhost',
+});
+
 };
 
 const signup = async (req, res) => {
@@ -177,10 +181,15 @@ const signin = async (req, res) => {
 const logout = async (req, res) => {
   try {
     res.clearCookie('token', {
-      domain: '.localhost',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      domain: process.env.NODE_ENV === 'production'
+        ? '.shop-management-server-five.vercel.app'
+        : '.localhost',
       path: '/'
     });
-    
+
     res.json({
       success: true,
       message: 'Logged out successfully'

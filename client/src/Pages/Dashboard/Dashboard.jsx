@@ -9,11 +9,29 @@ const Dashboard = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const navigate = useNavigate()
 
-  const handleShopClick = (shopName) => {
-    const name = shopName.toLowerCase().replace(/\s+/g, '-')
-    const shopUrl = `http://${name}.localhost:5173`
-    window.open(shopUrl, '_blank')
-  }     
+const handleShopClick = (shopName) => {
+  const token = localStorage.getItem('token') || 
+               document.cookie.split('; ')
+                .find(row => row.startsWith('token='))
+                ?.split('=')[1];
+
+  const userData = JSON.parse(localStorage.getItem('user'));
+
+  if (!token || !userData) {
+    console.error('No authentication data found');
+    return;
+  }
+
+  const name = shopName.toLowerCase().replace(/\s+/g, '-');
+
+  // Create the Verify URL
+  const shopUrl = new URL(`http://${name}.${import.meta.env.VITE_FRONTEND_URL}?shop=${name}&token=${token}&userId=${userData.id}&username=${userData.username}&name=${name}`);
+
+
+  window.open(shopUrl.toString(), '_blank');
+  // window.location.href = shopUrl.toString();
+};
+   
 
   const handleLogout = async () => {
     await logout()
@@ -78,7 +96,14 @@ const Dashboard = () => {
                   <User className="h-4 w-4 text-blue-600" />
                 </div>
                 <span>{user?.username}</span>
-                <ChevronDown className="h-4 w-4" />
+                {
+                  showProfile ? (
+                    <ChevronDown className="h-4 w-4 text-gray-500 transform rotate-180" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-gray-500" />
+                  )
+                  }    
+                
               </button>
 
               {showProfile && (
@@ -89,10 +114,10 @@ const Dashboard = () => {
                   </div>
                   
                   
-                  <div className="border-t flex justify-end">
+                  <div className="border-t">
                     <button
                       onClick={() => setShowLogoutConfirm(true)}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                      className="w-full text-center px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                     >
                       <LogOut className="inline h-4 w-4 mr-2" />
                       Sign out
@@ -128,7 +153,7 @@ const Dashboard = () => {
                    
                 
                   </div>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="text-sm text-gray-500 mb-4 uppercase font-bold">
                     {shop.name}
                   </p>
                   <div className="flex space-x-2">

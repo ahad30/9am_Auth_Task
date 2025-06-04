@@ -20,20 +20,37 @@ const router = require('./src/routes');
 
 const corsOptions = {
   origin: function (origin, callback) {
+   
     if (!origin) return callback(null, true);
 
-    // Allow base localhost and subdomains like xxx.localhost:5173
-    const allowedBase = ['localhost:5173', 'localhost:5174'];
-    const allowedRegex = /^http:\/\/([a-z0-9-]+\.)*localhost:(5173|5174)$/;
+    // Regex patterns
+    const localhostRegex = /^https?:\/\/([a-z0-9-]+\.)*localhost(:\d{1,5})?$/;
+    const vercelRegex = /^https:\/\/([a-z0-9-]+\.)*multipleshopmanagement(-[\w-]+)?\.vercel\.app$/;
+    const vercelPreviewRegex = /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/;
+    const productionRegex = /^https:\/\/(www\.)?multipleshopmanagement\.(com|app|dev)$/;
+    const netlifyRegex = /^https:\/\/([a-z0-9-]+\.)*multipleshopmanagement(-[\w-]+)?\.netlify\.app$/;
 
-    if (allowedBase.some(base => origin.includes(base)) || allowedRegex.test(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS: ' + origin));
+
+    
+    if (
+     
+      origin === 'http://localhost:5173' ||
+      origin === 'http://localhost:5174' || 
+      localhostRegex.test(origin) ||
+      vercelRegex.test(origin) ||
+      vercelPreviewRegex.test(origin) ||
+      productionRegex.test(origin) ||
+      netlifyRegex.test(origin)
+    ) {
+      return callback(null, true);
     }
+
+    callback(new Error(`Not allowed by CORS: ${origin}`));
   },
   credentials: true,
   optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 };
 
 
