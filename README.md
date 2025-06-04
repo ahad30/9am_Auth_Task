@@ -136,7 +136,7 @@ You can create your own account or use these test credentials:
 **Subdomains not working?**
 - Verify your hosts file entries
 - Check that cookies are being set with `.localhost` domain
-- Ensure Vite is running with `host: true` in config(optional)
+- Ensure Vite is running with `host: true` in config (optional)
 
 **Authentication issues?**
 - Verify JWT secret matches between frontend and backend
